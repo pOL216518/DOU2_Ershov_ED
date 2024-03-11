@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c845403327c349aa955e5191021ffb7c" Name="Diagram1" ZoomLevel="34">
+        <EntityTypeShape EntityType="AutoparkModel.Agreement" Width="1.5" PointX="7.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.Car_make" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.Cars" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.Colors" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.Model" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.Service_list" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.Service_point" Width="1.5" PointX="10.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.Status_list" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.Statuses" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.Storage_car" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoparkModel.Users" Width="1.5" PointX="5.25" PointY="14.125" IsExpanded="true" />
+        <AssociationConnector Association="AutoparkModel.FK_Agreement_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoparkModel.FK_Tariffs_Cars" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoparkModel.FK_Car_make_Model" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoparkModel.FK_Cars_Car_make" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoparkModel.FK_Cars_Colors" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoparkModel.FK_Cars_Status_list" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoparkModel.FK_Cars_Storage_car" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoparkModel.FK_Service_point_Cars" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoparkModel.FK_Service_point_Service_list" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoparkModel.FK_Employees_Positions" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

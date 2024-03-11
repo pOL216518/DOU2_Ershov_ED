@@ -1,0 +1,740 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище AutoparkModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Agreement">
+          <Key>
+            <PropertyRef Name="id_agreement" />
+          </Key>
+          <Property Name="id_agreement" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Start_date" Type="datetime" />
+          <Property Name="End_date" Type="datetime" />
+          <Property Name="id_car" Type="int" />
+          <Property Name="Rental_amount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="id_user" Type="int" />
+        </EntityType>
+        <EntityType Name="Car_make">
+          <Key>
+            <PropertyRef Name="id_car_make" />
+          </Key>
+          <Property Name="id_car_make" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Car_brand_name" Type="varchar" MaxLength="50" />
+          <Property Name="id_model" Type="int" />
+        </EntityType>
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="id_car" />
+          </Key>
+          <Property Name="id_car" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_color" Type="int" />
+          <Property Name="Registration_number" Type="varchar" MaxLength="20" />
+          <Property Name="id_status" Type="int" />
+          <Property Name="id_storage" Type="int" />
+          <Property Name="id_car_make" Type="int" />
+          <Property Name="Release_date" Type="date" />
+        </EntityType>
+        <EntityType Name="Colors">
+          <Key>
+            <PropertyRef Name="id_color" />
+          </Key>
+          <Property Name="id_color" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Color_name" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="id_model" />
+          </Key>
+          <Property Name="id_model" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Model_name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Service_list">
+          <Key>
+            <PropertyRef Name="id_service" />
+          </Key>
+          <Property Name="id_service" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Service_name" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Service_point">
+          <Key>
+            <PropertyRef Name="id_service_car" />
+          </Key>
+          <Property Name="id_service_car" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_car" Type="int" />
+          <Property Name="id_service" Type="int" />
+          <Property Name="Data" Type="date" />
+          <Property Name="Comments" Type="ntext" />
+        </EntityType>
+        <EntityType Name="Status_list">
+          <Key>
+            <PropertyRef Name="id_status" />
+          </Key>
+          <Property Name="id_status" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status_name" Type="varchar" MaxLength="50" />
+          <Property Name="Comment" Type="ntext" />
+        </EntityType>
+        <EntityType Name="Statuses">
+          <Key>
+            <PropertyRef Name="id_status" />
+          </Key>
+          <Property Name="id_status" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status_name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Storage_car">
+          <Key>
+            <PropertyRef Name="id_storage" />
+          </Key>
+          <Property Name="id_storage" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_storage_location" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="First_Name" Type="varchar" MaxLength="20" />
+          <Property Name="Last_name" Type="varchar" MaxLength="20" />
+          <Property Name="Phone_number" Type="varchar" MaxLength="15" />
+          <Property Name="Email" Type="varchar" MaxLength="40" />
+          <Property Name="id_status" Type="int" />
+          <Property Name="Password" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_Agreement_Employees">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_make_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
+          <End Role="Car_make" Type="Self.Car_make" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="id_model" />
+            </Principal>
+            <Dependent Role="Car_make">
+              <PropertyRef Name="id_model" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Car_make">
+          <End Role="Car_make" Type="Self.Car_make" Multiplicity="0..1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car_make">
+              <PropertyRef Name="id_car_make" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="id_car_make" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Colors">
+          <End Role="Colors" Type="Self.Colors" Multiplicity="0..1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colors">
+              <PropertyRef Name="id_color" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="id_color" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Status_list">
+          <End Role="Status_list" Type="Self.Status_list" Multiplicity="0..1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status_list">
+              <PropertyRef Name="id_status" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="id_status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Storage_car">
+          <End Role="Storage_car" Type="Self.Storage_car" Multiplicity="0..1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storage_car">
+              <PropertyRef Name="id_storage" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="id_storage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Positions">
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="id_status" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="id_status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_point_Cars">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+          <End Role="Service_point" Type="Self.Service_point" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="id_car" />
+            </Principal>
+            <Dependent Role="Service_point">
+              <PropertyRef Name="id_car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_point_Service_list">
+          <End Role="Service_list" Type="Self.Service_list" Multiplicity="0..1" />
+          <End Role="Service_point" Type="Self.Service_point" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service_list">
+              <PropertyRef Name="id_service" />
+            </Principal>
+            <Dependent Role="Service_point">
+              <PropertyRef Name="id_service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tariffs_Cars">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="id_car" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="id_car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище AutoparkModelContainer">
+          <EntitySet Name="Agreement" EntityType="Self.Agreement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Car_make" EntityType="Self.Car_make" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Colors" EntityType="Self.Colors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Model" EntityType="Self.Model" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service_list" EntityType="Self.Service_list" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service_point" EntityType="Self.Service_point" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status_list" EntityType="Self.Status_list" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Storage_car" EntityType="Self.Storage_car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Agreement_Employees" Association="Self.FK_Agreement_Employees">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_make_Model" Association="Self.FK_Car_make_Model">
+            <End Role="Model" EntitySet="Model" />
+            <End Role="Car_make" EntitySet="Car_make" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Car_make" Association="Self.FK_Cars_Car_make">
+            <End Role="Car_make" EntitySet="Car_make" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Colors" Association="Self.FK_Cars_Colors">
+            <End Role="Colors" EntitySet="Colors" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Status_list" Association="Self.FK_Cars_Status_list">
+            <End Role="Status_list" EntitySet="Status_list" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Storage_car" Association="Self.FK_Cars_Storage_car">
+            <End Role="Storage_car" EntitySet="Storage_car" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Positions" Association="Self.FK_Employees_Positions">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_point_Cars" Association="Self.FK_Service_point_Cars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Service_point" EntitySet="Service_point" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_point_Service_list" Association="Self.FK_Service_point_Service_list">
+            <End Role="Service_list" EntitySet="Service_list" />
+            <End Role="Service_point" EntitySet="Service_point" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tariffs_Cars" Association="Self.FK_Tariffs_Cars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AutoparkModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Agreement">
+          <Key>
+            <PropertyRef Name="id_agreement" />
+          </Key>
+          <Property Name="id_agreement" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Start_date" Type="DateTime" Precision="3" />
+          <Property Name="End_date" Type="DateTime" Precision="3" />
+          <Property Name="id_car" Type="Int32" />
+          <Property Name="Rental_amount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="id_user" Type="Int32" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Agreement_Employees" FromRole="Agreement" ToRole="Users" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Tariffs_Cars" FromRole="Agreement" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="Car_make">
+          <Key>
+            <PropertyRef Name="id_car_make" />
+          </Key>
+          <Property Name="id_car_make" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Car_brand_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_model" Type="Int32" />
+          <NavigationProperty Name="Model" Relationship="Self.FK_Car_make_Model" FromRole="Car_make" ToRole="Model" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_Car_make" FromRole="Car_make" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="id_car" />
+          </Key>
+          <Property Name="id_car" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_color" Type="Int32" />
+          <Property Name="Registration_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="id_status" Type="Int32" />
+          <Property Name="id_storage" Type="Int32" />
+          <Property Name="id_car_make" Type="Int32" />
+          <Property Name="Release_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Agreement" Relationship="Self.FK_Tariffs_Cars" FromRole="Cars" ToRole="Agreement" />
+          <NavigationProperty Name="Car_make" Relationship="Self.FK_Cars_Car_make" FromRole="Cars" ToRole="Car_make" />
+          <NavigationProperty Name="Colors" Relationship="Self.FK_Cars_Colors" FromRole="Cars" ToRole="Colors" />
+          <NavigationProperty Name="Status_list" Relationship="Self.FK_Cars_Status_list" FromRole="Cars" ToRole="Status_list" />
+          <NavigationProperty Name="Storage_car" Relationship="Self.FK_Cars_Storage_car" FromRole="Cars" ToRole="Storage_car" />
+          <NavigationProperty Name="Service_point" Relationship="Self.FK_Service_point_Cars" FromRole="Cars" ToRole="Service_point" />
+        </EntityType>
+        <EntityType Name="Colors">
+          <Key>
+            <PropertyRef Name="id_color" />
+          </Key>
+          <Property Name="id_color" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Color_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_Colors" FromRole="Colors" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="id_model" />
+          </Key>
+          <Property Name="id_model" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Model_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Car_make" Relationship="Self.FK_Car_make_Model" FromRole="Model" ToRole="Car_make" />
+        </EntityType>
+        <EntityType Name="Service_list">
+          <Key>
+            <PropertyRef Name="id_service" />
+          </Key>
+          <Property Name="id_service" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Service_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Service_point" Relationship="Self.FK_Service_point_Service_list" FromRole="Service_list" ToRole="Service_point" />
+        </EntityType>
+        <EntityType Name="Service_point">
+          <Key>
+            <PropertyRef Name="id_service_car" />
+          </Key>
+          <Property Name="id_service_car" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_car" Type="Int32" />
+          <Property Name="id_service" Type="Int32" />
+          <Property Name="Data" Type="DateTime" Precision="0" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Service_point_Cars" FromRole="Service_point" ToRole="Cars" />
+          <NavigationProperty Name="Service_list" Relationship="Self.FK_Service_point_Service_list" FromRole="Service_point" ToRole="Service_list" />
+        </EntityType>
+        <EntityType Name="Status_list">
+          <Key>
+            <PropertyRef Name="id_status" />
+          </Key>
+          <Property Name="id_status" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_Status_list" FromRole="Status_list" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="Statuses">
+          <Key>
+            <PropertyRef Name="id_status" />
+          </Key>
+          <Property Name="id_status" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Employees_Positions" FromRole="Statuses" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Storage_car">
+          <Key>
+            <PropertyRef Name="id_storage" />
+          </Key>
+          <Property Name="id_storage" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_storage_location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_Storage_car" FromRole="Storage_car" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="First_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Last_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Phone_number" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="id_status" Type="Int32" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Agreement" Relationship="Self.FK_Agreement_Employees" FromRole="Users" ToRole="Agreement" />
+          <NavigationProperty Name="Statuses" Relationship="Self.FK_Employees_Positions" FromRole="Users" ToRole="Statuses" />
+        </EntityType>
+        <Association Name="FK_Agreement_Employees">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tariffs_Cars">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="id_car" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="id_car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_make_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
+          <End Role="Car_make" Type="Self.Car_make" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="id_model" />
+            </Principal>
+            <Dependent Role="Car_make">
+              <PropertyRef Name="id_model" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Car_make">
+          <End Role="Car_make" Type="Self.Car_make" Multiplicity="0..1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car_make">
+              <PropertyRef Name="id_car_make" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="id_car_make" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Colors">
+          <End Role="Colors" Type="Self.Colors" Multiplicity="0..1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colors">
+              <PropertyRef Name="id_color" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="id_color" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Status_list">
+          <End Role="Status_list" Type="Self.Status_list" Multiplicity="0..1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status_list">
+              <PropertyRef Name="id_status" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="id_status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Storage_car">
+          <End Role="Storage_car" Type="Self.Storage_car" Multiplicity="0..1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storage_car">
+              <PropertyRef Name="id_storage" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="id_storage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_point_Cars">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+          <End Role="Service_point" Type="Self.Service_point" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="id_car" />
+            </Principal>
+            <Dependent Role="Service_point">
+              <PropertyRef Name="id_car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_point_Service_list">
+          <End Role="Service_list" Type="Self.Service_list" Multiplicity="0..1" />
+          <End Role="Service_point" Type="Self.Service_point" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service_list">
+              <PropertyRef Name="id_service" />
+            </Principal>
+            <Dependent Role="Service_point">
+              <PropertyRef Name="id_service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Positions">
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="id_status" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="id_status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AutoparkEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Agreement" EntityType="Self.Agreement" />
+          <EntitySet Name="Car_make" EntityType="Self.Car_make" />
+          <EntitySet Name="Cars" EntityType="Self.Cars" />
+          <EntitySet Name="Colors" EntityType="Self.Colors" />
+          <EntitySet Name="Model" EntityType="Self.Model" />
+          <EntitySet Name="Service_list" EntityType="Self.Service_list" />
+          <EntitySet Name="Service_point" EntityType="Self.Service_point" />
+          <EntitySet Name="Status_list" EntityType="Self.Status_list" />
+          <EntitySet Name="Statuses" EntityType="Self.Statuses" />
+          <EntitySet Name="Storage_car" EntityType="Self.Storage_car" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Agreement_Employees" Association="Self.FK_Agreement_Employees">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tariffs_Cars" Association="Self.FK_Tariffs_Cars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_make_Model" Association="Self.FK_Car_make_Model">
+            <End Role="Model" EntitySet="Model" />
+            <End Role="Car_make" EntitySet="Car_make" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Car_make" Association="Self.FK_Cars_Car_make">
+            <End Role="Car_make" EntitySet="Car_make" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Colors" Association="Self.FK_Cars_Colors">
+            <End Role="Colors" EntitySet="Colors" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Status_list" Association="Self.FK_Cars_Status_list">
+            <End Role="Status_list" EntitySet="Status_list" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Storage_car" Association="Self.FK_Cars_Storage_car">
+            <End Role="Storage_car" EntitySet="Storage_car" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_point_Cars" Association="Self.FK_Service_point_Cars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Service_point" EntitySet="Service_point" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_point_Service_list" Association="Self.FK_Service_point_Service_list">
+            <End Role="Service_list" EntitySet="Service_list" />
+            <End Role="Service_point" EntitySet="Service_point" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Positions" Association="Self.FK_Employees_Positions">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AutoparkModelContainer" CdmEntityContainer="AutoparkEntities">
+          <EntitySetMapping Name="Agreement">
+            <EntityTypeMapping TypeName="AutoparkModel.Agreement">
+              <MappingFragment StoreEntitySet="Agreement">
+                <ScalarProperty Name="id_agreement" ColumnName="id_agreement" />
+                <ScalarProperty Name="Start_date" ColumnName="Start_date" />
+                <ScalarProperty Name="End_date" ColumnName="End_date" />
+                <ScalarProperty Name="id_car" ColumnName="id_car" />
+                <ScalarProperty Name="Rental_amount" ColumnName="Rental_amount" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Car_make">
+            <EntityTypeMapping TypeName="AutoparkModel.Car_make">
+              <MappingFragment StoreEntitySet="Car_make">
+                <ScalarProperty Name="id_car_make" ColumnName="id_car_make" />
+                <ScalarProperty Name="Car_brand_name" ColumnName="Car_brand_name" />
+                <ScalarProperty Name="id_model" ColumnName="id_model" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="AutoparkModel.Cars">
+              <MappingFragment StoreEntitySet="Cars">
+                <ScalarProperty Name="id_car" ColumnName="id_car" />
+                <ScalarProperty Name="id_color" ColumnName="id_color" />
+                <ScalarProperty Name="Registration_number" ColumnName="Registration_number" />
+                <ScalarProperty Name="id_status" ColumnName="id_status" />
+                <ScalarProperty Name="id_storage" ColumnName="id_storage" />
+                <ScalarProperty Name="id_car_make" ColumnName="id_car_make" />
+                <ScalarProperty Name="Release_date" ColumnName="Release_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Colors">
+            <EntityTypeMapping TypeName="AutoparkModel.Colors">
+              <MappingFragment StoreEntitySet="Colors">
+                <ScalarProperty Name="id_color" ColumnName="id_color" />
+                <ScalarProperty Name="Color_name" ColumnName="Color_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Model">
+            <EntityTypeMapping TypeName="AutoparkModel.Model">
+              <MappingFragment StoreEntitySet="Model">
+                <ScalarProperty Name="id_model" ColumnName="id_model" />
+                <ScalarProperty Name="Model_name" ColumnName="Model_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Service_list">
+            <EntityTypeMapping TypeName="AutoparkModel.Service_list">
+              <MappingFragment StoreEntitySet="Service_list">
+                <ScalarProperty Name="id_service" ColumnName="id_service" />
+                <ScalarProperty Name="Service_name" ColumnName="Service_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Service_point">
+            <EntityTypeMapping TypeName="AutoparkModel.Service_point">
+              <MappingFragment StoreEntitySet="Service_point">
+                <ScalarProperty Name="id_service_car" ColumnName="id_service_car" />
+                <ScalarProperty Name="id_car" ColumnName="id_car" />
+                <ScalarProperty Name="id_service" ColumnName="id_service" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status_list">
+            <EntityTypeMapping TypeName="AutoparkModel.Status_list">
+              <MappingFragment StoreEntitySet="Status_list">
+                <ScalarProperty Name="id_status" ColumnName="id_status" />
+                <ScalarProperty Name="Status_name" ColumnName="Status_name" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Statuses">
+            <EntityTypeMapping TypeName="AutoparkModel.Statuses">
+              <MappingFragment StoreEntitySet="Statuses">
+                <ScalarProperty Name="id_status" ColumnName="id_status" />
+                <ScalarProperty Name="Status_name" ColumnName="Status_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Storage_car">
+            <EntityTypeMapping TypeName="AutoparkModel.Storage_car">
+              <MappingFragment StoreEntitySet="Storage_car">
+                <ScalarProperty Name="id_storage" ColumnName="id_storage" />
+                <ScalarProperty Name="Name_storage_location" ColumnName="Name_storage_location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AutoparkModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="AutoparkModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Last_name" ColumnName="Last_name" />
+                <ScalarProperty Name="Phone_number" ColumnName="Phone_number" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="id_status" ColumnName="id_status" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
