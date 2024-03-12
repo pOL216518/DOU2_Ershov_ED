@@ -15,9 +15,16 @@ namespace DOU2_Ershov_ED
     
     public partial class AutoparkEntities : DbContext
     {
+        private static AutoparkEntities _context;
         public AutoparkEntities()
             : base("name=AutoparkEntities")
         {
+        }
+        public static AutoparkEntities GetContext()
+        {
+            if (_context == null)
+                _context = new AutoparkEntities();
+            return _context;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

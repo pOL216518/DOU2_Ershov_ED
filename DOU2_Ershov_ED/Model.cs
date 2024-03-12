@@ -17,13 +17,13 @@ namespace DOU2_Ershov_ED
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Model()
         {
-            this.Car_make = new HashSet<Car_make>();
+            this.Cars = new HashSet<Cars>();
         }
     
         public int id_model { get; set; }
         public string Model_name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Car_make> Car_make { get; set; }
+        public virtual ICollection<Cars> Cars { get; set; }
     }
 }

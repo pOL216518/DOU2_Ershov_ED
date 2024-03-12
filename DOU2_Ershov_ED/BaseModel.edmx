@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище AutoparkModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище АutoparkModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Agreement">
           <Key>
             <PropertyRef Name="id_agreement" />
@@ -22,7 +22,6 @@
           </Key>
           <Property Name="id_car_make" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Car_brand_name" Type="varchar" MaxLength="50" />
-          <Property Name="id_model" Type="int" />
         </EntityType>
         <EntityType Name="Cars">
           <Key>
@@ -35,6 +34,7 @@
           <Property Name="id_storage" Type="int" />
           <Property Name="id_car_make" Type="int" />
           <Property Name="Release_date" Type="date" />
+          <Property Name="id_model" Type="int" />
         </EntityType>
         <EntityType Name="Colors">
           <Key>
@@ -123,18 +123,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Car_make_Model">
-          <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
-          <End Role="Car_make" Type="Self.Car_make" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Model">
-              <PropertyRef Name="id_model" />
-            </Principal>
-            <Dependent Role="Car_make">
-              <PropertyRef Name="id_model" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Cars_Car_make">
           <End Role="Car_make" Type="Self.Car_make" Multiplicity="0..1" />
           <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
@@ -156,6 +144,18 @@
             </Principal>
             <Dependent Role="Cars">
               <PropertyRef Name="id_color" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="id_model" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="id_model" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -231,7 +231,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище AutoparkModelContainer">
+        <EntityContainer Name="Хранилище АutoparkModelContainer">
           <EntitySet Name="Agreement" EntityType="Self.Agreement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Car_make" EntityType="Self.Car_make" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
@@ -248,16 +248,16 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Agreement" EntitySet="Agreement" />
           </AssociationSet>
-          <AssociationSet Name="FK_Car_make_Model" Association="Self.FK_Car_make_Model">
-            <End Role="Model" EntitySet="Model" />
-            <End Role="Car_make" EntitySet="Car_make" />
-          </AssociationSet>
           <AssociationSet Name="FK_Cars_Car_make" Association="Self.FK_Cars_Car_make">
             <End Role="Car_make" EntitySet="Car_make" />
             <End Role="Cars" EntitySet="Cars" />
           </AssociationSet>
           <AssociationSet Name="FK_Cars_Colors" Association="Self.FK_Cars_Colors">
             <End Role="Colors" EntitySet="Colors" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Model" Association="Self.FK_Cars_Model">
+            <End Role="Model" EntitySet="Model" />
             <End Role="Cars" EntitySet="Cars" />
           </AssociationSet>
           <AssociationSet Name="FK_Cars_Status_list" Association="Self.FK_Cars_Status_list">
@@ -289,7 +289,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="AutoparkModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="АutoparkModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Agreement">
           <Key>
             <PropertyRef Name="id_agreement" />
@@ -309,8 +309,6 @@
           </Key>
           <Property Name="id_car_make" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Car_brand_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="id_model" Type="Int32" />
-          <NavigationProperty Name="Model" Relationship="Self.FK_Car_make_Model" FromRole="Car_make" ToRole="Model" />
           <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_Car_make" FromRole="Car_make" ToRole="Cars" />
         </EntityType>
         <EntityType Name="Cars">
@@ -324,9 +322,11 @@
           <Property Name="id_storage" Type="Int32" />
           <Property Name="id_car_make" Type="Int32" />
           <Property Name="Release_date" Type="DateTime" Precision="0" />
+          <Property Name="id_model" Type="Int32" />
           <NavigationProperty Name="Agreement" Relationship="Self.FK_Tariffs_Cars" FromRole="Cars" ToRole="Agreement" />
           <NavigationProperty Name="Car_make" Relationship="Self.FK_Cars_Car_make" FromRole="Cars" ToRole="Car_make" />
           <NavigationProperty Name="Colors" Relationship="Self.FK_Cars_Colors" FromRole="Cars" ToRole="Colors" />
+          <NavigationProperty Name="Model" Relationship="Self.FK_Cars_Model" FromRole="Cars" ToRole="Model" />
           <NavigationProperty Name="Status_list" Relationship="Self.FK_Cars_Status_list" FromRole="Cars" ToRole="Status_list" />
           <NavigationProperty Name="Storage_car" Relationship="Self.FK_Cars_Storage_car" FromRole="Cars" ToRole="Storage_car" />
           <NavigationProperty Name="Service_point" Relationship="Self.FK_Service_point_Cars" FromRole="Cars" ToRole="Service_point" />
@@ -345,7 +345,7 @@
           </Key>
           <Property Name="id_model" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Model_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Car_make" Relationship="Self.FK_Car_make_Model" FromRole="Model" ToRole="Car_make" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_Model" FromRole="Model" ToRole="Cars" />
         </EntityType>
         <EntityType Name="Service_list">
           <Key>
@@ -440,18 +440,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Car_make_Model">
-          <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
-          <End Role="Car_make" Type="Self.Car_make" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Model">
-              <PropertyRef Name="id_model" />
-            </Principal>
-            <Dependent Role="Car_make">
-              <PropertyRef Name="id_model" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Cars_Car_make">
           <End Role="Car_make" Type="Self.Car_make" Multiplicity="0..1" />
           <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
@@ -473,6 +461,18 @@
             </Principal>
             <Dependent Role="Cars">
               <PropertyRef Name="id_color" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="id_model" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="id_model" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -557,16 +557,16 @@
             <End Role="Cars" EntitySet="Cars" />
             <End Role="Agreement" EntitySet="Agreement" />
           </AssociationSet>
-          <AssociationSet Name="FK_Car_make_Model" Association="Self.FK_Car_make_Model">
-            <End Role="Model" EntitySet="Model" />
-            <End Role="Car_make" EntitySet="Car_make" />
-          </AssociationSet>
           <AssociationSet Name="FK_Cars_Car_make" Association="Self.FK_Cars_Car_make">
             <End Role="Car_make" EntitySet="Car_make" />
             <End Role="Cars" EntitySet="Cars" />
           </AssociationSet>
           <AssociationSet Name="FK_Cars_Colors" Association="Self.FK_Cars_Colors">
             <End Role="Colors" EntitySet="Colors" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Model" Association="Self.FK_Cars_Model">
+            <End Role="Model" EntitySet="Model" />
             <End Role="Cars" EntitySet="Cars" />
           </AssociationSet>
           <AssociationSet Name="FK_Cars_Status_list" Association="Self.FK_Cars_Status_list">
@@ -595,9 +595,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище AutoparkModelContainer" CdmEntityContainer="AutoparkEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище АutoparkModelContainer" CdmEntityContainer="AutoparkEntities">
           <EntitySetMapping Name="Agreement">
-            <EntityTypeMapping TypeName="AutoparkModel.Agreement">
+            <EntityTypeMapping TypeName="АutoparkModel.Agreement">
               <MappingFragment StoreEntitySet="Agreement">
                 <ScalarProperty Name="id_agreement" ColumnName="id_agreement" />
                 <ScalarProperty Name="Start_date" ColumnName="Start_date" />
@@ -609,16 +609,15 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Car_make">
-            <EntityTypeMapping TypeName="AutoparkModel.Car_make">
+            <EntityTypeMapping TypeName="АutoparkModel.Car_make">
               <MappingFragment StoreEntitySet="Car_make">
                 <ScalarProperty Name="id_car_make" ColumnName="id_car_make" />
                 <ScalarProperty Name="Car_brand_name" ColumnName="Car_brand_name" />
-                <ScalarProperty Name="id_model" ColumnName="id_model" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cars">
-            <EntityTypeMapping TypeName="AutoparkModel.Cars">
+            <EntityTypeMapping TypeName="АutoparkModel.Cars">
               <MappingFragment StoreEntitySet="Cars">
                 <ScalarProperty Name="id_car" ColumnName="id_car" />
                 <ScalarProperty Name="id_color" ColumnName="id_color" />
@@ -627,11 +626,12 @@
                 <ScalarProperty Name="id_storage" ColumnName="id_storage" />
                 <ScalarProperty Name="id_car_make" ColumnName="id_car_make" />
                 <ScalarProperty Name="Release_date" ColumnName="Release_date" />
+                <ScalarProperty Name="id_model" ColumnName="id_model" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Colors">
-            <EntityTypeMapping TypeName="AutoparkModel.Colors">
+            <EntityTypeMapping TypeName="АutoparkModel.Colors">
               <MappingFragment StoreEntitySet="Colors">
                 <ScalarProperty Name="id_color" ColumnName="id_color" />
                 <ScalarProperty Name="Color_name" ColumnName="Color_name" />
@@ -639,7 +639,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Model">
-            <EntityTypeMapping TypeName="AutoparkModel.Model">
+            <EntityTypeMapping TypeName="АutoparkModel.Model">
               <MappingFragment StoreEntitySet="Model">
                 <ScalarProperty Name="id_model" ColumnName="id_model" />
                 <ScalarProperty Name="Model_name" ColumnName="Model_name" />
@@ -647,7 +647,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Service_list">
-            <EntityTypeMapping TypeName="AutoparkModel.Service_list">
+            <EntityTypeMapping TypeName="АutoparkModel.Service_list">
               <MappingFragment StoreEntitySet="Service_list">
                 <ScalarProperty Name="id_service" ColumnName="id_service" />
                 <ScalarProperty Name="Service_name" ColumnName="Service_name" />
@@ -655,7 +655,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Service_point">
-            <EntityTypeMapping TypeName="AutoparkModel.Service_point">
+            <EntityTypeMapping TypeName="АutoparkModel.Service_point">
               <MappingFragment StoreEntitySet="Service_point">
                 <ScalarProperty Name="id_service_car" ColumnName="id_service_car" />
                 <ScalarProperty Name="id_car" ColumnName="id_car" />
@@ -666,7 +666,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Status_list">
-            <EntityTypeMapping TypeName="AutoparkModel.Status_list">
+            <EntityTypeMapping TypeName="АutoparkModel.Status_list">
               <MappingFragment StoreEntitySet="Status_list">
                 <ScalarProperty Name="id_status" ColumnName="id_status" />
                 <ScalarProperty Name="Status_name" ColumnName="Status_name" />
@@ -675,7 +675,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Statuses">
-            <EntityTypeMapping TypeName="AutoparkModel.Statuses">
+            <EntityTypeMapping TypeName="АutoparkModel.Statuses">
               <MappingFragment StoreEntitySet="Statuses">
                 <ScalarProperty Name="id_status" ColumnName="id_status" />
                 <ScalarProperty Name="Status_name" ColumnName="Status_name" />
@@ -683,7 +683,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Storage_car">
-            <EntityTypeMapping TypeName="AutoparkModel.Storage_car">
+            <EntityTypeMapping TypeName="АutoparkModel.Storage_car">
               <MappingFragment StoreEntitySet="Storage_car">
                 <ScalarProperty Name="id_storage" ColumnName="id_storage" />
                 <ScalarProperty Name="Name_storage_location" ColumnName="Name_storage_location" />
@@ -691,7 +691,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="AutoparkModel.sysdiagrams">
+            <EntityTypeMapping TypeName="АutoparkModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -702,7 +702,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="AutoparkModel.Users">
+            <EntityTypeMapping TypeName="АutoparkModel.Users">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="id_user" ColumnName="id_user" />
                 <ScalarProperty Name="First_Name" ColumnName="First_Name" />

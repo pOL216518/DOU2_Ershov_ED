@@ -4,85 +4,178 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DOU2_Ershov_ED"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:dxe1="http://schemas.microsoft.com/netfx/2009/xaml/presentation" xmlns:dxe2="http://schemas.microsoft.com/xps/2005/06"
         mc:Ignorable="d"
-         Title="LoginView" Height="550" Width="800"
+         Title="AdminWin" Height="450" Width="800"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
         AllowsTransparency="True" HorizontalAlignment="Center" >
-    <Border CornerRadius="12">
-
+    
+    <Window.Resources>
+        <Style TargetType="DataGrid" x:Key="dataGrid">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="RowBackground" Value="Transparent" />
+            <Setter Property="Foreground" Value="AliceBlue" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="GridLinesVisibility" Value="None" />
+        </Style>
+        <Style TargetType="DataGridColumnHeader" >
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridColumnHeader">
+                        <Border Background="DimGray">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="AliceBlue" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+    </Window.Resources>
+    <Border x:Name="myBorder2" CornerRadius="12" MouseDown="myBorder2_MouseDown" MouseLeftButtonDown="myBorder2_MouseLeftButtonDown">
 
         <Border.Background>
             <ImageBrush ImageSource="/Images/fon_admin.jpeg"
                         Stretch="Fill"/>
         </Border.Background>
 
-        <Border x:Name="myBorder2" CornerRadius="10"                    
+
+        <Border CornerRadius="10"                    
             BorderThickness="2"
             Opacity="0.95"
-             Style="{DynamicResource DarkTheme}">
-
+            Style="{DynamicResource DarkTheme}">
 
             <Grid>
 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="5"/>
-                    </Grid.ColumnDefinitions>
 
 
+                <Border Grid.Row="1"  Background="DarkSlateGray" CornerRadius="0 50 50 0" Margin="0,25,0,27">
+                    <StackPanel DockPanel.Dock="Top">
+
+                        <Button x:Name="CheckUsers" Click="CheckUsers_Click" Style="{DynamicResource MenuBtn}" Margin="0,80,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                
+                                <TextBlock Text="View users" Margin="18,0,0,0"/>
+                            </StackPanel>
+
+                        </Button>
 
 
 
+                        <Button x:Name="addUserButton"  Click="addUserButton_Click" Style="{DynamicResource MenuBtn}" Margin="0,25,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                
+                                <TextBlock Text="View cars" Margin="16,0,0,0"/>
+                            </StackPanel>
 
-                    <Button x:Name="btnClose"                          
-                            BorderThickness="0"
-                            Content="X"
-                            Foreground="White"
-                            FontSize="12"
-                            FontFamily="Montserrat"
-                            Cursor="Hand"
-                            Grid.Column="2" Click="btnClose_Click">
+                        </Button>
 
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Background" Value="MediumSlateBlue"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#C62DAE"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
 
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Width="18" Height="18"
-                                        CornerRadius="9"
-                                        Background="{TemplateBinding Background}">
-                                    <ContentPresenter VerticalAlignment="Center"
-                                                      HorizontalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
+                        <Button  x:Name="addAdminButton" Click="addAdminButton_Click" Style="{DynamicResource MenuBtn}" Margin="0,20,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                
+                                <TextBlock Text="View agreement" Margin="18,0,0,0"/>
+                            </StackPanel>
 
-                </Grid>
+                        </Button>
+                        <Button  x:Name="Pechat" Click="Pechat_Click" Style="{DynamicResource MenuBtn}" Margin="0,25,0,0">
+                            <StackPanel Orientation="Horizontal">
 
-               
+                                <TextBlock Text="Print the peport" Margin="18,0,0,0"/>
+                            </StackPanel>
+
+                        </Button>
+
+                        <Button x:Name="btnLogout" Click="btnLogout_Click" Style="{DynamicResource MenuBtn}" VerticalAlignment="Bottom" DockPanel.Dock="Bottom"  Margin="0,25,0,0">
+                            <StackPanel Orientation="Horizontal">
+                               
+                                <TextBlock Text="Logout" Margin="19,0,0,0"/>
+                            </StackPanel>
+
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" x:Name="border_user" Background="DarkSlateGray" CornerRadius="50 50 50 50" Margin="52,35,52,27" Grid.Row="1">
+                    <Grid>
+                        <DataGrid Style ="{StaticResource dataGrid}" HeadersVisibility="Column" x:Name="DGridCars" AutoGenerateColumns="False"  ItemsSource="{Binding Users}" IsReadOnly="True" Margin="10,32,10,42"  >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Color" Width="*" Binding="{Binding Colors.Color_name}" />
+                                <DataGridTextColumn Header="Registration number" Width="*" Binding="{Binding Registration_number}" />
+                                <DataGridTextColumn Header="Status" Width="*" Binding="{Binding Status_list.Status_name}" />
+                                <DataGridTextColumn Header="Storage" Width="*" Binding="{Binding Storage_car.Name_storage_location}" />
+                                <DataGridTextColumn Header="Car brand name" Width="*" Binding="{Binding Car_make.Car_brand_name}" />
+                                <DataGridTextColumn Header="Model car" Width="*" Binding="{Binding Model.Model_name}" />
+                                <DataGridTextColumn Header="Release date" Width="*" Binding="{Binding Release_date}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+                    </Grid>
+
+                </Border>
+                <Border Grid.Column="1" x:Name="border_pechat" Background="DarkSlateGray" CornerRadius="50 50 50 50" Margin="52,35,52,27" Grid.Row="1">
+                    <DocumentViewer Name="documentViewer" />
+                </Border>
+
+                <Border Grid.Column="1" x:Name="border_admin" Background="DarkSlateGray" CornerRadius="50 50 50 50" Margin="52,35,52,27" Grid.Row="1">
+                    <Grid>
+                        <DataGrid Style ="{StaticResource dataGrid}" HeadersVisibility="Column" x:Name="DGridAgreement" AutoGenerateColumns="False"  ItemsSource="{Binding Users}" IsReadOnly="True" Margin="10,32,10,42"  >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Start date" Width="*" Binding="{Binding Start_date}" />
+                                <DataGridTextColumn Header="End date" Width="*" Binding="{Binding End_date}" />
+                                <DataGridTextColumn Header="Car brand name" Width="*" Binding="{Binding Cars.Car_make.Car_brand_name}" />
+                                <DataGridTextColumn Header="Model name" Width="*" Binding="{Binding Cars.Model.Model_name}" />
+                                <DataGridTextColumn Header="Rental_amount" Width="*" Binding="{Binding Rental_amount}" />
+                                <DataGridTextColumn Header="Users" Width="*" Binding="{Binding Users.Email}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+                    </Grid>
+
+
+
+                </Border>
+
+                <Border Grid.Column="1" x:Name="border_checkUsers" Background="DarkSlateGray" CornerRadius="50 50 50 50" Margin="18,35,18,27" Grid.Row="1">
+                    <Grid>
+                        <DataGrid Style ="{StaticResource dataGrid}" HeadersVisibility="Column" x:Name="DGridHotels" AutoGenerateColumns="False"  ItemsSource="{Binding Users}" IsReadOnly="True" Margin="10,32,10,42"  >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="First name" Width="*" Binding="{Binding First_Name}" />
+                                <DataGridTextColumn Header="Last name" Width="*" Binding="{Binding Last_name}" />
+                                <DataGridTextColumn Header="Phone number" Width="*" Binding="{Binding Phone_number}" />
+                                <DataGridTextColumn Header="Email" Width="*" Binding="{Binding Email}" />
+                                <DataGridTextColumn Header="Status" Width="*" Binding="{Binding Statuses.Status_name}" />
+                                <DataGridTextColumn Header="Password" Width="*" Binding="{Binding Password}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                       
+
+                      
+                        
+                        
+
+
+                    </Grid>
+                </Border>
             </Grid>
+
+
+
         </Border>
     </Border>
 </Window>

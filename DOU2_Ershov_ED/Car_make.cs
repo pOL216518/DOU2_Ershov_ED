@@ -22,9 +22,7 @@ namespace DOU2_Ershov_ED
     
         public int id_car_make { get; set; }
         public string Car_brand_name { get; set; }
-        public Nullable<int> id_model { get; set; }
     
-        public virtual Model Model { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cars> Cars { get; set; }
     }

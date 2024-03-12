@@ -28,11 +28,13 @@ namespace DOU2_Ershov_ED
         public Nullable<int> id_storage { get; set; }
         public Nullable<int> id_car_make { get; set; }
         public Nullable<System.DateTime> Release_date { get; set; }
+        public Nullable<int> id_model { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agreement> Agreement { get; set; }
         public virtual Car_make Car_make { get; set; }
         public virtual Colors Colors { get; set; }
+        public virtual Model Model { get; set; }
         public virtual Status_list Status_list { get; set; }
         public virtual Storage_car Storage_car { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
